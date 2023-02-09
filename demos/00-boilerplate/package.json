@@ -5,10 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --inline",
-    "api:fake": "json-server  --routes ./fake-json-server/routes.json --watch ./fake-json-server/db.json",
-    "build": "webpack",
-    "test": "karma start --no-single-Run",
-    "test:single": "karma start --single-Run"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -23,22 +20,12 @@
   "devDependencies": {
     "@types/angular": "^1.6.40",
     "@types/angular-toastr": "^1.6.33",
-    "@types/jasmine": "^2.8.4",
     "@types/webpack-env": "^1.13.3",
-    "angular-mocks": "^1.6.8",
     "awesome-typescript-loader": "^3.4.1",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "file-loader": "^1.1.6",
-    "jasmine": "^2.9.0",
-    "jasmine-core": "^2.9.1",
     "json-server": "^0.17.1",
-    "karma": "^2.0.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "^1.1.1",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-spec-reporter": "0.0.32",
-    "karma-webpack": "^2.0.9",
     "ng-annotate-webpack-plugin": "^0.2.1-pre",
     "raw-loader": "^0.5.1",
     "typescript": "^2.6.2",
@@ -49,7 +36,6 @@
   },
   "dependencies": {
     "@types/angular-mocks": "^1.5.11",
-    "@uirouter/angularjs": "^1.0.13",
     "angular": "^1.6.3",
     "angular-messages": "^1.6.8",
     "angular-toastr": "^2.1.1",
