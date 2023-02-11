@@ -1,11 +1,6 @@
-<div style="display: flex; flex-direction: column">
-  <clientlistcard
-    client="'My sport dealer'"
-    details="'Lorem ipsum dolor sit amet, consectetur..'"
-  ></clientlistcard>
-
-  <clientlistcard
-    client="'We Run'"
-    details="'Lorem ipsum dolor sit amet, consectetur..'"
-  ></clientlistcard>
+<div
+  style="display: flex; flex-direction: column"
+  ng-repeat="client in vm.clientList"
+>
+  <clientlistcard client="client.name" details="client.status"></clientlistcard>
 </div>

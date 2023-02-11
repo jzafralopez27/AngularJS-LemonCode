@@ -180,19 +180,81 @@ export const ClientListComponent = {
 _./src/app/pages/client-list/client-list.component.ts_
 
 ```diff
++ import { Client } from "./client-list.model";
 import { ClientApiService } from "./client.service";
 
 class ClientListController {
++ clientList: Client[] = [];
   constructor(private clientApiService: ClientApiService) {
     "ngInject";
++    this.clientList = [];
   }
 
 + $onInit() {
 +   this.clientApiService.getClientList().then(
 +     (result) => {
++       this.clientList = result;
 +       console.log(result);
 +     }
 }
 ```
 
-- Vamos comprobar que al cargar la página salen los datos por la consola
+- Vamos comprobar que al cargar la página salen los datos por la consola.
+
+```bash
+npm start
+```
+
+- Vamos ahora a pasar al componente hijo (clientListResult) los datos para que los pinte:
+
+_./src/app/pages/client-list/client-list.component.html_
+
+```diff
+<div>
+  <h1>Hello From Client Component !</h1>
+  <clientlistsearch></clientlistsearch>
+-  <clientlistresult></clientlistresult>
++  <clientlistresult client-list="vm.clientList"></clientlistresult>
+</div>
+```
+
+- Ahora ese párametro lo vamos a recibir en el componente hijo como binding de entrada:
+
+_./src/app/pages/client-list/result/client-list-result.component.ts_
+
+```diff
++ import { Client } from "../client-list.model";
+
+export const ClientListResultComponent = {
++ bindings: {
++   clientList: "<"
++ },
+  template: require("./client-list-result.component.html") as string,
++ controllerAs: 'vm'
+};
+```
+
+Y ahora en la plantilla sustituimos los _cards_ que hemos harcodeado por la directiva _ng-repeat_ que sirve para iterar sobre el array de clientes y pintamos un card por cada uno que nos llegue.
+
+_./src/app/pages/client-list/result/client-list-result.component.html_
+
+```diff
+<div
+  style="display: flex; flex-direction: column"
++ ng-repeat="client in vm.clientList"
+>
+  <clientlistcard
+-    client="'My sport dealer'"
++    client="client.name"
+-    details="'Lorem ipsum dolor sit amet, consectetur..'"
++   details="client.status"
+  ></clientlistcard>
+
+-  <clientlistcard
+-    client="'We Run'"
+-    details="'Lorem ipsum dolor sit amet, consectetur..'"
+-  ></clientlistcard>
+</div>
+```
+
+Fijate que lo que le pasamos por los parametros lo evalua como un enlace a una variable miembro de los bindings o del controlador, si quisieramos pasar un valor literal deberíamos añadir unas comillas simples adicionales (como estaba antes con la card harcodeada).
