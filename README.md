@@ -34,7 +34,7 @@ Aquí creamos un formulario de login y lo conectamos con el servicio previamente
 
 Aquí aprendemos a gestionar la validación de un formulario, trabajamos con las directivas de validación de _angular_ también con _angular-message_ para poder extraer plantillas de errores y no tener que repetir código, y también aprenderemos a hacer un override cuando nos haga falta, también jugaremos con los valores _pristine_ y _error_ del motor de validaciones de angular, y encontrarás enlaces de utilidad si quieres crear validadores custom.
 
-## 07 http-client-list
+## 07 Http Client List
 
 En este último ejemplo aprendemos a interactuar con una API REST, para ello utilizaremos el servicio _$http_ de angular, y pasaremos como paremetro de binding la lista al componente que pinta los resultados, y usaremos la directiva _ng-repeat_ para iterar por la lista y crear una card por cada cliente en la lista
 
