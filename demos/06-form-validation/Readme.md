@@ -208,3 +208,14 @@ _./src/app/pages/login/login.component.html_
 ```
 
 Fíjate que ahora para la validación _ng-required_ en el campo username tenemos el estandár _Please inform the field_ y para el campo de la contraseña tenemos el mensaje _Empty password is not allowed_.
+
+_Angularjs_ trae una serie de validaciones predefinidas, por ejemplo:
+
+- ng-required: campo obligatorio.
+- ng-minlength: el campo debe tener una longitud mínima.
+- ng-maxlength: el campo no puede pasar de una longitud máxima.
+- ng-pattern: el campo tiene que cumplir el patrón que le indiquemos en una expresión regular.
+
+Además de esto existen multitud de validadores de terceros, uno interesante, un [validador de IBAN](https://github.com/ayosdev/ng-iban-custom)
+
+También puedes crear tus [propias validaciones síncronas y asíncronas](https://www.algotech.solutions/blog/javascript/how-to-create-custom-validator-directives-with-angularjs/)
