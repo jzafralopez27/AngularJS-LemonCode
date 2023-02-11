@@ -9,7 +9,7 @@ import { ClientListCardComponent } from "./pages/client-list/card/client-list-ca
 import { LoginService } from "./pages/login/login.service";
 
 angular
-  .module("app", ["ui.router"])
+  .module("app", ["ui.router", "toastr"])
   .config(routing)
   .component("app", AppComponent)
   .component("login", LoginComponent)

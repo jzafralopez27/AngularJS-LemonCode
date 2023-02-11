@@ -1,13 +1,20 @@
 import { LoginService } from "./login.service";
 import { StateService } from "@uirouter/angularjs";
+import { IToastrService } from "angular-toastr";
 
 class LoginPageController {
   private loginService: LoginService;
   $state: StateService;
+  toastr: IToastrService;
 
-  constructor($state: StateService, loginService: LoginService) {
+  constructor(
+    $state: StateService,
+    toastr: IToastrService,
+    loginService: LoginService
+  ) {
     "ngInject";
     this.$state = $state;
+    this.toastr = toastr;
     this.loginService = loginService;
   }
 
@@ -16,7 +23,9 @@ class LoginPageController {
       if (succeeded) {
         this.$state.go("clientlist");
       } else {
-        alert("login failed");
+        this.toastr.error(
+          "Incorrect login or password, please try again, Pssst login: user@email.com pwd: test"
+        );
       }
     });
   };
@@ -28,4 +37,4 @@ export const LoginComponent = {
   controller: LoginPageController,
 };
 
-LoginPageController.$inject = ["$state", "LoginService"];
+LoginPageController.$inject = ["$state", "toastr", "LoginService"];
