@@ -130,3 +130,85 @@ _./src/app/login/login.component.ts_
 ```
 
 > ¿De donde sale ese _clientlist_? Échale un ojo al fichero _app.routing.ts_
+
+- Para terminar, ¿No sería mejor en vez de mostrar un alert cuando el login falla, mostrar algo más amigable para el usuario? Por ejemplo un mensaje de tipo "tostada".
+
+Vamos a aprender consumir una librería de terceros.
+
+En este caso vamos a usar la librería [angular-toastr](https://github.com/Foxandxss/angular-toastr) en este caso ya tenemos instaladas las dependecias y el tipado en el proyecto (puedes verlo en el fichero _package.json_).
+
+También esta configurada con su punto de entrada en el fichero _webpack.config.js_
+
+> Si te hace falta añadir una librería nueva en tu proyecto legacy, primero consultalo con el responsable del proyecto y también que te indique como las introducen en la solución.
+
+Vamos a ver como darle uso en una aplicación angular, para ello primero nos vamos al módulo e indicamos que la vamos a usar:
+
+_./src/app/app.ts_
+
+```diff
+angular
+  .module("app", ["ui.router",
++  "toastr"
+  ])
+  .config(routing)
+  .component("app", AppComponent)
+  .component("login", LoginComponent)
+  .component("clientlist", ClientListComponent)
+  .component("clientlistsearch", ClientListSearchComponent)
+  .component("clientlistresult", ClientListResultComponent)
+  .component("clientlistcard", ClientListCardComponent)
+  .service("LoginService", LoginService);
+```
+
+- Ahora nos vamos al _login.component.ts_ y vamos a usar la librería para mostrar un mensaje de error cuando el login falle.
+
+_./src/app/login/login.component.ts_
+
+```diff
+import { LoginService } from "./login.service";
+import { StateService } from "@uirouter/angularjs";
++ import {IToastrService} from 'angular-toastr';
+
+class LoginPageController {
+  private loginService: LoginService;
+  $state: StateService;
++ toastr : IToastrService;
+
+  constructor(
+      $state: StateService,
++     toastr : IToastrService,
+      loginService: LoginService) {
+    "ngInject";
+    this.$state = $state;
++    this.toastr = toastr;
+    this.loginService = loginService;
+  }
+
+  //(...)
+
+- LoginPageController.$inject = ["$state", "LoginService"];
++ LoginPageController.$inject = ["$state", "toastr","LoginService"];
+```
+
+Y ahora vamos a usar el servicio _toastr_ en el método _validateLogin_:
+
+_./src/app/login/login.component.ts_
+
+```diff
+  validateLogin = (login: string, password: string) => {
+    this.loginService.validateLogin(login, password).then((succeeded) => {
+      if (succeeded) {
+        this.$state.go("clientlist");
+      } else {
+-        alert("login failed");
++        this.toastr.error('Incorrect login or password, please try again, Pssst login: user@email.com pwd: test');
+      }
+    });
+  };
+```
+
+- Vamos a probarlo, si todo ha ido bien, deberías ver un mensaje de error cuando el login falle.
+
+```bash
+npm start
+```
