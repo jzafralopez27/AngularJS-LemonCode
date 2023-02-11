@@ -26,9 +26,15 @@ Aquí nos centraremos en montar un layout estático, y aprenderemos a pasar para
 
 Aquí aprenderemos a crear un servicio que simule una llamada para validar un login, simularemos que la llamada es asíncrona y así nos familiarizaremos con $Q y la inyección dependencias de Angularjs.
 
-# 05 Form
+## 05 Form
 
 Aquí creamos un formulario de login y lo conectamos con el servicio previamente creado, si el login tiene éxito navegamos por código a la ventana de listado, si no mostramos una tostada (para ello utilizamos la librería externa _angular-toaster_, aprenderemos a importar una libería de terceros.
 
-# 06 
+## 06 Form Validation
+
+Aquí aprendemos a gestionar la validación de un formulario, trabajamos con las directivas de validación de _angular_ también con _angular-message_ para poder extraer plantillas de errores y no tener que repetir código, y también aprenderemos a hacer un override cuando nos haga falta, también jugaremos con los valores _pristine_ y _error_ del motor de validaciones de angular, y encontrarás enlaces de utilidad si quieres crear validadores custom.
+
+## 07 http-client-list
+
+En este último ejemplo aprendemos a interactuar con una API REST, para ello utilizaremos el servicio _$http_ de angular, y pasaremos como paremetro de binding la lista al componente que pinta los resultados, y usaremos la directiva _ng-repeat_ para iterar por la lista y crear una card por cada cliente en la lista
 
