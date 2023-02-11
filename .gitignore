@@ -8,3 +8,4 @@ typings/
 */src/**/*.js.map
 sh.exe.stackdump
 package.lock.json
+*.pdf
