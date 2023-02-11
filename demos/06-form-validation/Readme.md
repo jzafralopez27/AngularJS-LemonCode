@@ -187,3 +187,24 @@ _./src/app/pages/login/login.component.html_
 +    </div>
 +  </div>
 ```
+
+¿Y que pasa si tengo que cambiar uno de los mensajes de error de la plantilla justo sólo para un campo? ¿Tengo que manualmente poner todos los validadores? La respuesta es no, puedes elegir la plantilla y sobrescribir el texto del validador que quiera, vamos a cambiar el mensaje de required para el campo de la contraseña a otro texto:
+
+```diff
+              <input
+                name="passwordField"
+                type="password"
+                class="form-control"
+                style="border-radius: 0px"
+                id="exampleInputPassword1"
+                placeholder="Password"
+                ng-model="vm.password"
+                ng-required="true"
+              />
+              <div ng-messages="loginForm.passwordField.$error">
++                 <div ng-message="required">Empty password is not allowed</div>
+                <div ng-messages-include="form-error-messages"></div>
+              </div>
+```
+
+Fíjate que ahora para la validación _ng-required_ en el campo username tenemos el estandár _Please inform the field_ y para el campo de la contraseña tenemos el mensaje _Empty password is not allowed_.

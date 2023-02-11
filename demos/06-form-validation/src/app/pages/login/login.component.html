@@ -43,6 +43,7 @@
                 ng-required="true"
               />
               <div ng-messages="loginForm.passwordField.$error">
+                <div ng-message="required">Empty password is not allowed</div>
                 <div ng-messages-include="form-error-messages"></div>
               </div>
             </div>
