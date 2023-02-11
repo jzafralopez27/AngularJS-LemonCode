@@ -45,6 +45,8 @@ En nuestro caso el servicio de login lo vamos a colocar debajo de la página de 
 _./src/app/pages/login/login.service.ts_
 
 ```typescript
+import * as angular from "angular";
+
 export class LoginService {
   constructor() {}
 
@@ -82,6 +84,8 @@ Vamos a ver como simular que estamos haciendo una llámada asíncrona en el mét
 
 - Primero tenemos que pedir $q a angularjs, para ello tenemos que inyectarlo en el constructor del servicio.
 
+_./src/app/pages/login/login.service.ts_
+
 ```diff
 export class LoginService {
 +  $q : angular.IQService = null;
@@ -107,3 +111,80 @@ export class LoginService {
 - Para evitar problemas cuando minifiquemos el código, utilizamos la anotación para indicarle que busque el servicio $q (ojo depende de la versión de angular y aproximación, esto te lo puedes encontrar resuelto de varias formas).
 
 - Vamos ahora a cambiar la implementación del método _validateLogin_ para que devuelva una promesa.
+
+_./src/app/pages/login/login.service.ts_
+
+```diff
+- public validateLogin(user: string, pwd: string): boolean {
++  public validateLogin(user : string, pwd: string) : angular.IPromise<boolean> {
+-  return user === "admin" && pwd === "test";
++  const deferred = this.$q.defer<boolean>();
++  const validationResult = (user === 'admin' && pwd === 'test');
++  deferred.resolve(validationResult);
++
++    return deferred.promise;
+}
+```
+
+De esta manera, cuando llamemos a _validateLogin_ nos devolverá una promesa, y desde la página podemos esperar a que esta se resuelva y validar el resultado.
+
+Esto es lo que llamamos una _implementación mock_, lo bueno es que la firma del método nos vale para implementar una llamada asíncrona contra servidor y sólo tendríamos que introducir el código aquí, el de la página se quedaría como esta.
+
+Toca registrar el servicio a nivel de aplicación para que esté disponible.
+
+_./src/app/app.ts_
+
+```diff
+import { ClientListCardComponent } from "./pages/client-list/card/client-list-card.component";
++ import {LoginService} from './pages/login/login.service';
+
+angular
+  .module("app", ["ui.router"])
+  .config(routing)
+  .component("app", AppComponent)
+  .component("login", LoginComponent)
+  .component("clientlist", ClientListComponent)
+  .component("clientlistsearch", ClientListSearchComponent)
+  .component("clientlistresult", ClientListResultComponent)
+  .component("clientlistcard", ClientListCardComponent);
++ .service('LoginService', LoginService);
+```
+
+Vámonos ahora al componente de login, y vamos a pedir el servicio que hemos creado a invocarlo, que hacemos aquí
+
+- Pedimos en el constructor el servicio que hemos creado (LoginService), así el motor de inyección de dependencias de angularjs se encargará de instanciarlo y pasárnoslo.
+
+- Lo invocamos para comprobar que funciona (esperamos a que la promesa se resuelva).
+
+Fijate que hay un _import_ del servicio, esto lo usamos sólo para resolver el tipado de TypeScript.
+
+_./src/app/pages/login/login.component.ts_
+
+```diff
++ import { LoginService } from "./login.service";
+
+export const LoginComponent = {
++    "ngInject";
++
++    this.LoginService = LoginService;
++
++  }
+  template: require("./login.component.html") as string,
++ controllerAs: 'vm',
++ controller: class LoginPageController {
++   constructor(LoginService : LoginService) {
++    "ngInject";
++ 
++   }
++ }
+};
+
++ LoginPageController.$inject = ['LoginService'];
+```
+
+- Vamos ahora hacer una pequeña prueba para asegurarnos que funciona (después moveremos este código del constructor).
+
+_./src/app/pages/login/login.component.ts_
+
+```diff
+```
