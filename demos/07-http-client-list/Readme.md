@@ -1,13 +1,6 @@
 # 07 Lista de clientes tirando de rest api
 
-Cuando creamos un formulario, es importante darle feedback al usuario si ha introducido los datos correctamente o no, y mostrar un mensaje debajo del campo indicando el error en caso de que no sea correcto.
-
-_Angularjs_ trae fontanería para hacer esto de forma sencilla, y es algo parecido a lo que actualmente usa _Angular_.
-
-En este ejemplo vamos a añadir las siguientes validaciones:
-
-- El login es un campo obligatorio y tiene que ser un email bien formado.
-- La contraseña en un campo obligatorio.
+Vamos ahora a interactuar con una rest api, traernos datos y mostrarlos por pantalla.
 
 # Paso a paso
 
@@ -17,205 +10,189 @@ En este ejemplo vamos a añadir las siguientes validaciones:
 npm install
 ```
 
-- Vámonos al formulario de login y en cada etiqueta añadimos el validador campo `required`:
+- Esta vez vamos a abrir un terminal adicional y en el propio repositorio tenemos un servidor rest api mock, para arrancarlo:
 
-```diff
-            <div class="form-group">
-              <label for="exampleInputEmail1">Username or Email</label>
-              <input
-                type="email"
-                class="form-control"
-                style="border-radius: 0px"
-                id="exampleInputEmail1"
-                placeholder="Enter email"
-                ng-model="vm.user"
-+               ng-required="true"
-              />
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1"
-                >Password
-                <a href="/sessions/forgot_password">(forgot password)</a></label
-              >
-              <input
-                type="password"
-                class="form-control"
-                style="border-radius: 0px"
-                id="exampleInputPassword1"
-                placeholder="Password"
-                ng-model="vm.password"
-+               ng-required="true"
-              />
-            </div>
+```bash
+cd server
 ```
-
-Ahora al formulario vamos a darle un nombre para poder ver el estado del mismo desde otra parte del HTML.
-
-```diff
-- <form role="form">
-+ <form role="form" name="loginForm">
-```
-
-- Ahora vamos a desactivar el botón de login en el caso de que el usuario no haya introducido datos en el formulario o los datos sean incorrectos.
-
-```diff
-    <button
-      type="submit"
-      class="btn btn-sm btn-default"
-      ng-click="vm.validateLogin(vm.user, vm.password)"
-+      ng-disabled="loginForm.$pristine || loginForm.$invalid"
-    >
-```
-
-> Fijate que los validadores están implementados como directivas (ng-required) y que para deshabilitar el componente usamos otra directiva, ng-disabled.
-
-> _loginForm_ es el nombre que le pusimos al formulario.
-
-Si ahora probamos podemos ver que hasta que no informados los dos campos, el botón de login no se activa.
 
 ```bash
 npm start
 ```
 
-Vamos ahora a mostrar los mensajes de error debajo de cada campo, para ello vamos a ayudarnos de la librería _angular-message_, como tema a tener en cuenta esta librería nos permite reusar una plantilla de errores, ahorrando así código.
+Dejalo corriendo, para probbar que funciona pon la siguente url en el navegador: [http://localhost:3000/api/clients](http://localhost:3000/api/clients)
 
-Este librería ya la tenemos instalada en el proyecto (ver _package.json), y también está incorporada al bundle (ver \_webpack.config.js_).
+- Vámonos ahora al código de angular, volvemos a la página de listado de clientes.
 
-- Vamos a importarla en nuestra aplicación _angularjs_
+- Cómo estamos usando TypeScript, vamos a crear una entidad que represente a un cliente, para ello creamos un fichero model.ts:
+
+_./src/app/pages/client-list/client-list.model.ts_
+
+```typescript
+export interface Client {
+  id: string;
+  name: string;
+  status: string;
+}
+```
+
+- Vamos ahora a crear un servicio que se encargue de traernos los datos de la rest api, para ello creamos un fichero client.service.ts:
+
+_./src/app/pages/client-list/client.service.ts_
+
+```typescript
+import * as angular from "angular";
+import { Client } from "./client-list.model";
+
+export class ClientApiService {
+  constructor() {}
+}
+```
+
+- Para poder hacer peticiones http, vamos a usar el servicio HttpClient de Angular, además de esto procesaremos la respuesta para dejarlo tipado como un array de Client, para ello usaremos el gestor de promesas de Angular _$q_.
+
+> Fíjate que aquí para _$q_ no hemos definido una variable miembro como _$http_ directamente le hemos plantado el _private_ en el constructor, esto es un azucar de TypeScript que nos permite definir una variable miembro y asignarle el valor de un parámetro del constructor.
+
+_./src/app/pages/client-list/client.service.ts_
+
+```diff
+import * as angular from 'angular';
+import { Client } from "./model/client";
+
+
+export class ClientApiService {
++  $http: angular.IHttpService = null;
+-  constructor() {}
++  constructor($http: angular.IHttpService, private $q : angular.IQService) {
++    "ngInject";
++   this.$http = $http;
++ }
+}
++
++ ClientApiService.$inject = ['$http','$q'];
+```
+
+- Vamos a registrarlo en el app:
 
 _./src/app/app.ts_
 
 ```diff
+import { ClientListResultComponent } from "./pages/client-list/result/client-list-result.component";
+import { ClientListCardComponent } from "./pages/client-list/card/client-list-card.component";
+import { LoginService } from "./pages/login/login.service";
++ import { ClientApiService } from "./pages/client-list/client.service";
+
 angular
-  .module("app", ["ui.router",
-+                 "ngMessages",
-                  "toastr"])
+  .module("app", ["ui.router", "ngMessages", "toastr"])
   .config(routing)
+  .component("app", AppComponent)
+  .component("login", LoginComponent)
+  .component("clientlist", ClientListComponent)
+  .component("clientlistsearch", ClientListSearchComponent)
+  .component("clientlistresult", ClientListResultComponent)
+  .component("clientlistcard", ClientListCardComponent)
+  .service("LoginService", LoginService)
++  .service("ClientApiService", ClientApiService);
 ```
 
-Vamos a mostrar la validación en el campo _username or email_
+Vamos a crear un método que nos traiga los clientes, para ello vamos a usar el método _get_ de _$http_, aquí:
 
-_./src/app/pages/login/login.component.html_
+- Creamos una promesa.
+- Lanzamos la llamada HTTP (si no tratáramos la respuesta, podríamos directamente devolver la promesa de _$http_).
+- En cuanto llega la respuesta lo tipamos a nuestro array de clientes.
+
+_./src/app/pages/client-list/client.service.ts_
 
 ```diff
-    <div class="form-group">
-      <label for="exampleInputEmail1">Username or Email</label>
-      <input
-+       name="loginField"
-        type="email"
-        class="form-control"
-        style="border-radius: 0px"
-        id="exampleInputEmail1"
-        placeholder="Enter email"
-        ng-model="vm.user"
-        ng-required
-      />
-+     <div ng-messages="loginForm.loginField.$error">
-+      <p ng-message="required">Please inform the field</p>
-+      <p ng-message="email">Please inform a valid email</p>
-+     </div>
-    </div>
+  constructor($http: angular.IHttpService, private $q : angular.IQService) {
+    "ngInject";
+
+    this.$http = $http;
+  }
+
++  public getClientList(): angular.IPromise<Client[]> {
++    const deferred = this.$q.defer<Client[]>();
++
++    // TODO This could be configured, baseURL and environment variable in webpack
++    this.$http.get('http://localhost:3000/clients').then(
++      (result) => {
++        const clients =  result.data as Client[];
++        deferred.resolve(clients);
++      }
++    );
++    return deferred.promise;
++  }
 ```
 
-> Fíjate que tenemos un mensaje para saber si el email es valido y funciona ¿Por qué si no hemos añadido ninguna directiva de validación para el email? Porque Angularjs se integra con los validadores de HTML5, en este caso el input type de esa caja de texto es _email_.
+- Vamos a registrar el servicio en nuestra aplicación:
 
-Vamos a probar y ver el mensaje que aparece.
-
-```bash
-npm start
-```
-
-Perfecto, ¿Hacemos lo mismo para el campo de la contraseña? Sería un poco rollo ir rellenando el mismo markup de error en plan copia y pega, una ventaja de _angular-messages_ es que podemos crear una plantilla de error y reutilizarla en todos los campos que queramos.
-
-_./src/app/pages/login/login.component.html_
+_./src/app/app.ts_
 
 ```diff
-+<script type="text/ng-template" id="form-error-messages">
-+  <div ng-message="required">Please inform the field</div>
-+  <p ng-message="email">Please inform a valid email</p>
-+</script>
-<div>
-  <div class="container" style="margin-top: 30px">
-    <div class="col-md-4 col-md-offset-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><strong>Sign in </strong></h3>
+import * as angular from "angular";
+import { AppComponent } from "./app.component";
+import { routing } from "./app.routing";
+import { LoginComponent } from "./pages/login/login.component";
+import { ClientListComponent } from "./pages/client-list/client-list.component";
+import { ClientListSearchComponent } from "./pages/client-list/search/client-list-search.component";
+import { ClientListResultComponent } from "./pages/client-list/result/client-list-result.component";
+import { ClientListCardComponent } from "./pages/client-list/card/client-list-card.component";
+import { LoginService } from "./pages/login/login.service";
++ import { ClientApiService } from "./pages/client-list/client.service";
+
+angular
+  .module("app", ["ui.router", "ngMessages", "toastr"])
+  .config(routing)
+  .component("app", AppComponent)
+  .component("login", LoginComponent)
+  .component("clientlist", ClientListComponent)
+  .component("clientlistsearch", ClientListSearchComponent)
+  .component("clientlistresult", ClientListResultComponent)
+  .component("clientlistcard", ClientListCardComponent)
+  .service("LoginService", LoginService)
++  .service("ClientApiService", ClientApiService);
 ```
 
-Y ahora sustituimos en el campo usuario por la plantilla y en el campo clave directamente usamos la plantilla:
+- Vámonos ahora a nuestra página de clientes y creamos un _controller_ y traernos el servicio de _clienteAPIService_ lo asignamos a la página (vamos a usar el azucar de TS para definir la variable miembro y asignarle el valor del parámetro del constructor).
 
-_./src/app/pages/login/login.component.html_
+_./src/app/pages/client-list/client-list.component.ts_
 
 ```diff
-    <input
-      name="loginField"
-      type="email"
-      class="form-control"
-      style="border-radius: 0px"
-      id="exampleInputEmail1"
-      placeholder="Enter email"
-      ng-model="vm.user"
-      ng-required="true"
-    />
--    <div ng-messages="loginForm.loginField.$error">
--      <p ng-message="required">Please inform the field</p>
--      <p ng-message="email">Please inform a valid email</p>
--    </div>
-+  <div ng-messages="loginForm.loginField.$error">
-+    <div ng-messages-include="form-error-messages">
-+    </div>
-+  </div>
++ import { ClientApiService } from "./client.service";
+
++ class ClientListController {
++  constructor(private clientApiService: ClientApiService) {
++  "ngInject";
++  }
++ }
+
+export const ClientListComponent = {
+  template: require("./client-list.component.html") as string,
++ controller: ClientListController,
++ controllerAs: "vm"
+};
+
++ ClientListController.$inject = ['ClientApiService'];
 ```
 
-Y en el campo clave podemos hacer lo mismo:
+- Queremos cargar los datos justo cuando se carga la página, para ellos vamos a usar _$OnInit_ (como vimos en ejemplos anteriores este método se ejecuta justo después del constructor cuando ya está monntado el componente en el dom):
 
-_./src/app/pages/login/login.component.html_
+_./src/app/pages/client-list/client-list.component.ts_
 
 ```diff
-    <input
-+     name="passwordField"
-      type="password"
-      class="form-control"
-      style="border-radius: 0px"
-      id="exampleInputPassword1"
-      placeholder="Password"
-      ng-model="vm.password"
-      ng-required="true"
-    />
-+  <div ng-messages="loginForm.passwordField.$error">
-+    <div ng-messages-include="form-error-messages">
-+    </div>
-+  </div>
+import { ClientApiService } from "./client.service";
+
+class ClientListController {
+  constructor(private clientApiService: ClientApiService) {
+    "ngInject";
+  }
+
++ $onInit() {
++   this.clientApiService.getClientList().then(
++     (result) => {
++       console.log(result);
++     }
+}
 ```
 
-¿Y que pasa si tengo que cambiar uno de los mensajes de error de la plantilla justo sólo para un campo? ¿Tengo que manualmente poner todos los validadores? La respuesta es no, puedes elegir la plantilla y sobrescribir el texto del validador que quiera, vamos a cambiar el mensaje de required para el campo de la contraseña a otro texto:
-
-```diff
-              <input
-                name="passwordField"
-                type="password"
-                class="form-control"
-                style="border-radius: 0px"
-                id="exampleInputPassword1"
-                placeholder="Password"
-                ng-model="vm.password"
-                ng-required="true"
-              />
-              <div ng-messages="loginForm.passwordField.$error">
-+                 <div ng-message="required">Empty password is not allowed</div>
-                <div ng-messages-include="form-error-messages"></div>
-              </div>
-```
-
-Fíjate que ahora para la validación _ng-required_ en el campo username tenemos el estandár _Please inform the field_ y para el campo de la contraseña tenemos el mensaje _Empty password is not allowed_.
-
-_Angularjs_ trae una serie de validaciones predefinidas, por ejemplo:
-
-- ng-required: campo obligatorio.
-- ng-minlength: el campo debe tener una longitud mínima.
-- ng-maxlength: el campo no puede pasar de una longitud máxima.
-- ng-pattern: el campo tiene que cumplir el patrón que le indiquemos en una expresión regular.
-
-Además de esto existen multitud de validadores de terceros, uno interesante, un [validador de IBAN](https://github.com/ayosdev/ng-iban-custom)
-
-También puedes crear tus [propias validaciones síncronas y asíncronas](https://www.algotech.solutions/blog/javascript/how-to-create-custom-validator-directives-with-angularjs/)
+- Vamos comprobar que al cargar la página salen los datos por la consola

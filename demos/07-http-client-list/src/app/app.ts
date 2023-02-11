@@ -7,6 +7,7 @@ import { ClientListSearchComponent } from "./pages/client-list/search/client-lis
 import { ClientListResultComponent } from "./pages/client-list/result/client-list-result.component";
 import { ClientListCardComponent } from "./pages/client-list/card/client-list-card.component";
 import { LoginService } from "./pages/login/login.service";
+import { ClientApiService } from "./pages/client-list/client.service";
 
 angular
   .module("app", ["ui.router", "ngMessages", "toastr"])
@@ -17,4 +18,5 @@ angular
   .component("clientlistsearch", ClientListSearchComponent)
   .component("clientlistresult", ClientListResultComponent)
   .component("clientlistcard", ClientListCardComponent)
-  .service("LoginService", LoginService);
+  .service("LoginService", LoginService)
+  .service("ClientApiService", ClientApiService);
