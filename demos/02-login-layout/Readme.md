@@ -1,269 +1,96 @@
-# 01 Routing
+# 01 Login Layout
 
-En el paso previo, hemos cread una aplicación con un sólo componente, pero en una aplicación real, queremos tener varias ventanas y navegación, ojo:
+Antes de ponernos a crear servicios o ponernos con bindings etc, lo suyo es construir un layout que tenga buena pinta.
 
-- En realidad sólo tenemos un HTML completo de base.
-- En un _div_ de ese HTML tendremos componentes que dinámicamente se irán cargando y reemplazando el contenido.
+En los tiempos es que se usaba Angular teníamos una seríe de problemas para poder hacer un layout que se ajustara a la pantalla, y que tuviera un buen aspecto:
 
-Para ello nos hace falta:
+- Los estándares como flexbox o css grid no estaban del todo definidos.
+- Cada navegador hacía la guerra por su sitio (al cabezota de Microsoft le coste dió su brazo a torcer a con Internet Explorer).
+- Estaban irrumpiendo las tablets, los smart phones y hacer aplicaciones responsivas se hacía muy complicado (en muchos casos se llegaban a mantener portales separados para móvil o escritorio).
 
-- Definir los componentes que queremos mostrar.
-- Utilizar un enrutador que permita navegar entre ellos.
+En ese tiempo se publicaron librerías como _Twitter bootstrap_ que ayudaban a construir layouts responsivos, si estás en un proyecto legacy es muy probable que estás usando _bootstrap_, a tener en cuenta:
+
+- Si tu proyecto es muy antiguo, seguramente estés usando la versión 2 de Bootstrap (ojo, buscate la documentación de esta versión ya que hay bastantes cambios con la versión 3).
+- Si tu proyecto se creo en 2015 o 2016 puede que estás trabajando con la versión 3 de Bootstrap.
+- Si es más moderno o actualizado puede que esté con la 4 o incluso la 5.
+
+Ojo cada versión introduce breaking changes, y existen librerías de componentes de Angular que están atadas a ciertas versiones de Bootstrap, antes de intentar migrar o actualizar pregunta al responsable de tu proyecto.
 
 # Paso a paso
 
-Antes de empezar a configurar el routing, vamos a crear un componente de _login_ que vamos a usar en la página de inicio.
-
-Vamos a crear una subcarpeta que llamaremos _pages_ y dentro crearemos otra subcarpeta que llamaremos _login_ y dentro de esta crearemos un fichero _login.component.ts_ y otro _login.component.html_.
-
-_./src/app/pages/login/login.component.html_
-
-```html
-<div>
-  <h1>Hello From Login Component !</h1>
-</div>
-```
-
-_./src/app/pages/login/login.component.ts_
-
-```typescript
-export const LoginComponent = {
-  template: require("./login.component.html") as string,
-};
-```
-
-Este componente de login lo registraremos a nivel de aplicación.
-
-_./src/app/app.ts_
-
-```diff
-import * as angular from "angular";
-import { AppComponent } from "./app.component";
-
-angular.module("app", ["ui.router"])
-  .component("app", AppComponent)
-+ .component("login", LoginComponent);
-```
-
-En _Angularjs_ os podéis encontrar dos opciones principales de routing:
-
-- _angular-router_: este es el router oficial de _Angularjs_, es un módulo externo, y es tiene algunas limitaciones.
-- _ui-router_: este fue un router alternativo, que tiene más funcionalidades, y en los últimos años de esta tecnología se hizo bastante popular.
-
-Lo normal es que si no tenéis casos avanzados en vuestra aplicación, ambos funcionen de una manera similar y os cubra un mínimo.
-
-En este ejemplo vamos a usar _uirouter_.
-
-Lo primero que hacemos es instalarnos el módulo, si vuestro proyecto utiliza _npm_ sería:
+En este proyecto ya tenemos _bootstrap_ versión _3.3.7_ instalado, como curiosidad, si quieres instalar un paquete instalado con una versión concreta, se lo puedes indicar en el _npm install_:
 
 ```bash
-npm install @uirouter/angularjs --save
+npm install bootstrap@3.3.7 --save
 ```
 
-- Ahora toca incluir la librería en nuestro bundle, en caso de que estés usando _webpack_, lo podemos añadir en nuestro punto de entrada (otra opción más arcaica es añadir el script en el _index.html_, en un proyecto real pregunta a tu mentor si tienes dudas):
+En el proyecto también te encontrarás que referenciamos el CSS de esta librería en el fichero _webpack.config.js_.
 
-> En el fichero del proyecto verás que ya están incluidos por comodidad
+Si necesitas consultar como funciona esta librería, tienes la documentación disponible en este enlace:
 
-_webpack.config.js_
+https://bootstrapdocs.com/v3.3.0/docs/css/
 
-```diff
-  entry: {
-    app: './app/app.ts',
-    vendor: [
-      'angular',
-+      '@uirouter/angularjs',
-    ],
-```
+Vamos a plantar un layout completo de login, ver el aspecto que tiene y explicar un poco como funciona:
 
-- Nos hemos descargado la librería y la hemos incluido en nuestro bundle, pero nos queda un paso más para poder usarla, y es indicarle a _Angularjs_ que la incluye en el proyecto:
-
-En nuestra aplicación _angular_ suele haber un punto de entrada que se suele llamar _app_ o _main_ en el que definimos un módulo, el nombre del mismo (normalmente _app_, aunque puede tener el nombre de otra aplicación) y las dependencias que tiene (es decir que librerías va a usar), así como que componentes de aplicación tiene registrado (veremos esto en más detalle más adelante).
-
-_./src/app/app.ts_
-
-```diff
-import * as angular from 'angular';
-import {AppComponent} from './app.component';
-import { components } from './components'
-
-angular.module('app', [
-+   'ui.router',
-    components.name
-  ])
-  .component('app', AppComponent)
-;
-```
-
-> Mucho cuidado con no equivocarte al teclear el nombre de la librería aquí, fíjate que es un string, y que si te equivocas _typescript_ no te va a avisar.
-
-> Hay aplicaciones que definen varios módulos para que ésta sea más mantenible, en caso de duda pedid ayuda a vuestro mentor.
-
-Vamos ahora a crear un fichero en el que definiremos las rutas de nuestra aplicación, que hacemos aquí:
-
-A nivel de imports
-
-- Primero importamos el módulo de _angularjs_ (usaremos algunas entradas del mismo en este fichero).
-- Después importamos el módulo de _uirouter_, y nos traemos una serie de entradas (_StateProvider_, _UrlRouteProvider_ y _Ng1StateDeclaration_).
-
-A nivel de código:
-
-- Definimos una función en la que pedimos una serie de servicios, aquí estamos usando inyección de dependencia (es parecido a lo que hacíamos con _@Inject_ en _Angularjs_).
-
-- Fíjate que por defecto, _Angularjs_ cuando vaya a buscar esas dependencias lo hará por el nombre de la variable, esto puede ser un problema serio cuando hagamos el build a producción y estos nombres se minifiquen, por eso usamos una extensión en la que le indicamos los nombres de los servicioes que queremos inyectar (fíjate que al final del fichero tienes una entrada _routing.$inject_, depende de la versión de _angularjs_ con la que estés trabajando esto se resuelve de diferentes maneras, pregunta a tu responsable de proyecto).
-
-- Lo siguiente que hacemos es indicarle que vamos a usar url's antiguas (con #), esto es para que no se rompa la navegación en navegadores antiguos, si lo pones en modo _html5_ no pones la _#_ para las rutas.
-
-- Después empezamos a definir las rutas de nuestra aplicación, aquí tenemos un _$stateProvider_ y definimos una ruta _home_, en esta ruta vamos a definir una página que contendrá un componente de _login_ (el que hemos creado y registrado en un paso previo).
-
-> El areas de _views_ está definida de esta manera porque podemos tener más de un placeholder en la página, y cada uno de ellos puede tener una ruta diferente (es para escenario más complejos).
-
-_./src/app/app.routing.ts_
-
-```typescript
-import * as angular from "angular";
-import {
-  StateProvider,
-  UrlRouterProvider,
-  Ng1StateDeclaration,
-} from "@uirouter/angularjs";
-
-// https://github.com/ngParty/ng-metadata/issues/206
-export const routing = (
-  $locationProvider: angular.ILocationProvider,
-  $stateProvider: StateProvider,
-  $urlRouterProvider: UrlRouterProvider
-) => {
-  "ngInject";
-
-  // html5 removes the need for # in URL
-  $locationProvider.html5Mode({
-    enabled: false,
-  });
-
-  $stateProvider.state("home", <Ng1StateDeclaration>{
-    url: "/home",
-    views: {
-      "content@": { template: "<login></login>" },
-    },
-  });
-
-  $urlRouterProvider.otherwise("/home");
-};
-
-routing.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider"];
-```
-
-- Vamos a decirle a la aplicación angular que vamos a usar ese _routing_ que hemos definido, para ello usamos el método _config_ del módulo de _angularjs_.
-
-_./src/app/app.ts_
-
-```diff
-import * as angular from "angular";
-import { AppComponent } from "./app.component";
-+ import { routing } from "./app.routing";
-import { LoginComponent } from "./pages/login/login.component";
-
-angular.module("app", ["ui.router"])
-+ .config(routing)
-  .component("app", AppComponent)
-  .component("login", LoginComponent);
-```
-
-Ahora vamos al fichero de _app.html_ y le indicamos que vamos a usar el outlet de _uirouter_ (es decir en ese sitio es donde ui-router mostrará la página), fijate que es un div en el que le índicamos que pinte el contenido del area de _ui-router_ que nombramos _content_ (sólo nombramos una).
-
-_./src/app/app.html_
+_./src/_
 
 ```diff
 <div>
-  <h1>Hello From Angular app!</h1>
-+ <div ui-view="content"></div>
+-  <h1>Hello From Login Component !</h1>
++  <div class="container" style="margin-top:30px">
++    <div class="col-md-4 col-md-offset-4">
++      <div class="panel panel-default">
++        <div class="panel-heading">
++          <h3 class="panel-title"><strong>Sign in </strong></h3>
++        </div>
++        <div class="panel-body">
++          <form role="form">
++            <div class="form-group">
++              <label for="exampleInputEmail1">Username or Email</label>
++              <input
++                type="email"
++                class="form-control"
++                style="border-radius:0px"
++                id="exampleInputEmail1"
++                placeholder="Enter email"
++              />
++            </div>
++            <div class="form-group">
++              <label for="exampleInputPassword1"
++                >Password
++                <a href="/sessions/forgot_password">(forgot password)</a></label
++              >
++              <input
++                type="password"
++                class="form-control"
++                style="border-radius:0px"
++                id="exampleInputPassword1"
++                placeholder="Password"
++              />
++            </div>
++            <button type="submit" class="btn btn-sm btn-default">
++              Sign in
++            </button>
++          </form>
++        </div>
++      </div>
++    </div>
++  </div>
+   <a ui-sref="clientlist">Navigate to clients</a>
 </div>
 ```
 
-- Es el momento de arrancar y ver que se nos muestra la página de login.
+-Vamos a arrancar el proyecto y ver que pinta tiene el login:
 
-```bash
-npm start
-```
+- _container_: es un elemento que nos permite centrar el contenido de la página, y que se ajuste a la pantalla.
+- _col-md-4 col-md-offset-4_: es un elemento que nos permite crear columnas, y que se ajuste a la pantalla, en este caso el estamos diciendo que para tamaño de pantalla _md_ (medium) queremos que ocupe 4 columnas, y que se desplace 4 columnas a la derecha (bootstrap tiene su sistema de diseño en columnas, así como diferente tamaños, xs, sm, md, lg, xl).
+- _panel_: es un elemento que nos permite crear un panel con un borde, y que se ajuste a la pantalla.
+- _panel-heading_: es un elemento que nos permite crear un encabezado para el panel.
+- _panel-body_: es un elemento que nos permite crear un cuerpo para el panel.
+- _form_: es un elemento que nos permite crear un formulario.
+- _form-group_: es un elemento que nos permite crear un grupo de elementos de un formulario.
+- _btn_: bootstrap nos permite estilar botones.
 
-- Bueno, contentos porque con todo el bombazo de código que hemos metido, sigue funcionando la aplicación, pero es hora de empezar a sacarle partido al router, vamos a crear una página en la que vamos a mostrar un listado de clientes, y añadir un enlace de navegación para ir de una página a otra.
+Si necesitas inspiración para crear un formulario o listado estilado y estás en un proyecto legacy, mi consejo es que busques ejemplos parecidos en la aplicación para poder tomarlo como punto de partida, si tienes que hacer algo nuevo puedes también inspirarte en los ejempls de _bootsnipp_ soporta varias versiones, en concreto para esta versión 3.3: https://bootsnipp.com/tags/3.3.0
 
-_./src/pages/client-list/client-list.component.html_
-
-```html
-<div>
-  <h1>Hello From Client Component !</h1>
-</div>
-```
-
-_./src/pages/client-list/client-list.component.ts_
-
-```typescript
-export const ClientListComponent = {
-  template: require("./client-list.component.html") as string,
-};
-```
-
-Para utilizar esta nuevo página tenemos que registrarla, en este caso lo hacemos en el módulo de _aplicación_ en una aplicación grande puede que la tengan parcelada en diferentes submódulos, si tienes dudas pregunta al responsable de tu proyecto.
-
-_./src/app/app.ts_
-
-```diff
-import * as angular from "angular";
-import { AppComponent } from "./app.component";
-import { routing } from "./app.routing";
-import { LoginComponent } from "./pages/login/login.component";
-+ import { ClientListComponent } from "./pages/client-list/client-list.component";
-
-angular
-  .module("app", ["ui.router"])
-  .config(routing)
-  .component("app", AppComponent)
-  .component("login", LoginComponent)
-+ .component("clientlist", ClientListComponent);
-```
-
-Vamos a añadir esta ruta a nuestro _ui-router_.
-
-_./src/app/app.routing.ts_
-
-```diff
-  $stateProvider.state("home", <Ng1StateDeclaration>{
-    url: "/home",
-    views: {
-      "content@": { template: "<login></login>" },
-    },
-  })
-+ .state("clientlist", <Ng1StateDeclaration>{
-+   url: "/clientlist",
-+   views: {
-+     "content@": { template: "<clientlist></clientlist>" },
-+   },
-+ });
-  ;
-```
-
-- Si ahora probamos en el navegador, podemos introducir en el navegador la siguiente ruta _http://localhost:8080/#/clientlist_ y veremos que se nos muestra la página de clientes.
-
-- Es hora de poder navegar también en la aplicación, vamos a añadir 8n enlace para navegar a la página de clientes desde la página de login.
-
-_./src/pages/login/login.component.html_
-
-```diff
-<div>
-  <h1>Hello From Login Component !</h1>
-+  <a ui-sref="clientlist">Navigate to clients</a>
-</div>
-```
-
-Fíjate que no estamos usando _href_ para navegar ¿Por qué? Si usaramos el parámetro _href_ navegaría a un página estática, y perderíamos la navegación de _ui-router_.
-
-Aquí lo que usamos es una directiva (le enseñamos _trucos_ nuevos al viejo elemento _a_): en este caso _ui-sref_ que nos permite navegar a una ruta de _ui-router_.
-
-Vamos a probarlo
-
-```bash
-npm start
-```
-
-Si pinchamos en el enlace puede ver que navegas a la página de clientes.
+Otro tema a la hora de crear layout es que preguntes en tu equipo que aproximación se usa, puede que igual para nuevas ventanas prefieres que los montes usando tecnología moderna, o puede que por consistencia prefieran que uses lo que se usa en el resto de la aplicación.
