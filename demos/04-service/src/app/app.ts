@@ -6,6 +6,7 @@ import { ClientListComponent } from "./pages/client-list/client-list.component";
 import { ClientListSearchComponent } from "./pages/client-list/search/client-list-search.component";
 import { ClientListResultComponent } from "./pages/client-list/result/client-list-result.component";
 import { ClientListCardComponent } from "./pages/client-list/card/client-list-card.component";
+import { LoginService } from "./pages/login/login.service";
 
 angular
   .module("app", ["ui.router"])
@@ -15,4 +16,5 @@ angular
   .component("clientlist", ClientListComponent)
   .component("clientlistsearch", ClientListSearchComponent)
   .component("clientlistresult", ClientListResultComponent)
-  .component("clientlistcard", ClientListCardComponent);
+  .component("clientlistcard", ClientListCardComponent)
+  .service("LoginService", LoginService);

@@ -162,29 +162,60 @@ _./src/app/pages/login/login.component.ts_
 
 ```diff
 + import { LoginService } from "./login.service";
++
++ class LoginPageController {
++  private loginService: LoginService;
++
++  constructor(LoginService: LoginService) {
++    "ngInject";
++    this.loginService = LoginService;
++  }
++ }
 
 export const LoginComponent = {
-+    "ngInject";
-+
-+    this.LoginService = LoginService;
-+
-+  }
   template: require("./login.component.html") as string,
 + controllerAs: 'vm',
-+ controller: class LoginPageController {
-+   constructor(LoginService : LoginService) {
-+    "ngInject";
-+ 
-+   }
-+ }
++ controller: LoginPageController,
 };
 
 + LoginPageController.$inject = ['LoginService'];
 ```
 
-- Vamos ahora hacer una pequeña prueba para asegurarnos que funciona (después moveremos este código del constructor).
+- Vamos ahora hacer una pequeña prueba para asegurarnos que funciona (después moveremos este código del _$onInit_ al handler del botón de _login_), ¿Qué hacemos aquí?
+  - Implementamos un método que invoque al login y como prueba mostramos un alert con el resultado.
+  - Ese método lo invocamos de desde _$onInit_ para que se ejecute cuando el componente esta ya inicializado y montando el DOM.
 
 _./src/app/pages/login/login.component.ts_
 
 ```diff
+class LoginPageController {
+  private loginService: LoginService;
+
+  constructor(LoginService: LoginService) {
+    "ngInject";
+    this.loginService = LoginService;
+  }
+
++  public $onInit() {
++    this.validateLogin("admin", "test");
++  }
+
++  validateLogin = (login : string, password :string) => {
++    this.loginService.validateLogin(login, password).then(
++       (succeeded) => {
++         if(succeeded) {
++            alert('login succeeded');
++         } else {
++           alert('login failed');
++         }
++       }
++    );
++ }
+}
+```
+
+Así pues nada más arrancar la aplicación se mostrará un alert.
+
+```bash
+npm start
 ```
