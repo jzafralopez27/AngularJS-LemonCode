@@ -18,12 +18,19 @@ export const routing = (
     enabled: false,
   });
 
-  $stateProvider.state("home", <Ng1StateDeclaration>{
-    url: "/home",
-    views: {
-      "content@": { template: "<login></login>" },
-    },
-  });
+  $stateProvider
+    .state("home", <Ng1StateDeclaration>{
+      url: "/home",
+      views: {
+        "content@": { template: "<login></login>" },
+      },
+    })
+    .state("clientlist", <Ng1StateDeclaration>{
+      url: "/clientlist",
+      views: {
+        "content@": { template: "<clientlist></clientlist>" },
+      },
+    });
 
   $urlRouterProvider.otherwise("/home");
 };

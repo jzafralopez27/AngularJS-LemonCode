@@ -185,3 +185,85 @@ _./src/app/app.html_
 ```bash
 npm start
 ```
+
+- Bueno, contentos porque con todo el bombazo de código que hemos metido, sigue funcionando la aplicación, pero es hora de empezar a sacarle partido al router, vamos a crear una página en la que vamos a mostrar un listado de clientes, y añadir un enlace de navegación para ir de una página a otra.
+
+_./src/pages/client-list/client-list.component.html_
+
+```html
+<div>
+  <h1>Hello From Client Component !</h1>
+</div>
+```
+
+_./src/pages/client-list/client-list.component.ts_
+
+```typescript
+export const ClientListComponent = {
+  template: require("./client-list.component.html") as string,
+};
+```
+
+Para utilizar esta nuevo página tenemos que registrarla, en este caso lo hacemos en el módulo de _aplicación_ en una aplicación grande puede que la tengan parcelada en diferentes submódulos, si tienes dudas pregunta al responsable de tu proyecto.
+
+_./src/app/app.ts_
+
+```diff
+import * as angular from "angular";
+import { AppComponent } from "./app.component";
+import { routing } from "./app.routing";
+import { LoginComponent } from "./pages/login/login.component";
++ import { ClientListComponent } from "./pages/client-list/client-list.component";
+
+angular
+  .module("app", ["ui.router"])
+  .config(routing)
+  .component("app", AppComponent)
+  .component("login", LoginComponent)
++ .component("clientlist", ClientListComponent);
+```
+
+Vamos a añadir esta ruta a nuestro _ui-router_.
+
+_./src/app/app.routing.ts_
+
+```diff
+  $stateProvider.state("home", <Ng1StateDeclaration>{
+    url: "/home",
+    views: {
+      "content@": { template: "<login></login>" },
+    },
+  })
++ .state("clientlist", <Ng1StateDeclaration>{
++   url: "/clientlist",
++   views: {
++     "content@": { template: "<clientlist></clientlist>" },
++   },
++ });
+  ;
+```
+
+- Si ahora probamos en el navegador, podemos introducir en el navegador la siguiente ruta _http://localhost:8080/#/clientlist_ y veremos que se nos muestra la página de clientes.
+
+- Es hora de poder navegar también en la aplicación, vamos a añadir 8n enlace para navegar a la página de clientes desde la página de login.
+
+_./src/pages/login/login.component.html_
+
+```diff
+<div>
+  <h1>Hello From Login Component !</h1>
++  <a ui-sref="clientlist">Navigate to clients</a>
+</div>
+```
+
+Fíjate que no estamos usando _href_ para navegar ¿Por qué? Si usaramos el parámetro _href_ navegaría a un página estática, y perderíamos la navegación de _ui-router_.
+
+Aquí lo que usamos es una directiva (le enseñamos _trucos_ nuevos al viejo elemento _a_): en este caso _ui-sref_ que nos permite navegar a una ruta de _ui-router_.
+
+Vamos a probarlo
+
+```bash
+npm start
+```
+
+Si pinchamos en el enlace puede ver que navegas a la página de clientes.
