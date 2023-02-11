@@ -9,7 +9,7 @@ class LoginPageController {
   }
 
   public $onInit() {
-    this.validateLogin("admin", "test");
+    this.validateLogin("user@email.com", "test");
   }
 
   validateLogin = (login: string, password: string) => {

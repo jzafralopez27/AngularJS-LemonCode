@@ -69,7 +69,7 @@ _./src/app/pages/login/login.service.ts_
 ```diff
   public validateLogin(user : string, pwd: string) : boolean {
 -    return false;
-+    return (user === 'admin' && pwd === 'test');
++    return (user === 'user@email.com' && pwd === 'test');
   }
 ```
 
@@ -119,7 +119,7 @@ _./src/app/pages/login/login.service.ts_
 +  public validateLogin(user : string, pwd: string) : angular.IPromise<boolean> {
 -  return user === "admin" && pwd === "test";
 +  const deferred = this.$q.defer<boolean>();
-+  const validationResult = (user === 'admin' && pwd === 'test');
++  const validationResult = (user === 'user@email.com' && pwd === 'test');
 +  deferred.resolve(validationResult);
 +
 +    return deferred.promise;

@@ -9,7 +9,7 @@ export class LoginService {
 
   public validateLogin(user: string, pwd: string): angular.IPromise<boolean> {
     const deferred = this.$q.defer<boolean>();
-    const validationResult = user === "admin" && pwd === "test";
+    const validationResult = user === "user@email.com" && pwd === "test";
     deferred.resolve(validationResult);
 
     return deferred.promise;
