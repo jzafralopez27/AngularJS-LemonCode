@@ -8,7 +8,7 @@ En los tiempos es que se usaba Angular teníamos una seríe de problemas para po
 - Cada navegador hacía la guerra por su sitio (al cabezota de Microsoft le coste dió su brazo a torcer a con Internet Explorer).
 - Estaban irrumpiendo las tablets, los smart phones y hacer aplicaciones responsivas se hacía muy complicado (en muchos casos se llegaban a mantener portales separados para móvil o escritorio).
 
-En ese tiempo se publicaron librerías como _Twitter bootstrap_ que ayudaban a construir layouts responsivos, si estás en un proyecto legacy es muy probable que estás usando _bootstrap_, a tener en cuenta:
+En ese tiempo se publicaron librerías como _Twitter bootstrap_ que ayudaban a construir layouts responsivos, si estás en un proyecto Angularjs es muy probable que estás usando _bootstrap_, a tener en cuenta:
 
 - Si tu proyecto es muy antiguo, seguramente estés usando la versión 2 de Bootstrap (ojo, buscate la documentación de esta versión ya que hay bastantes cambios con la versión 3).
 - Si tu proyecto se creo en 2015 o 2016 puede que estás trabajando con la versión 3 de Bootstrap.

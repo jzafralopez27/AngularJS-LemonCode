@@ -12,7 +12,7 @@ Lo primero que vamos a hacer es instalar las dependencias, en un proyecto median
 npm install
 ```
 
-Depende del proyecto legacy en el que estés trabajando, te puedes encontrar con que:
+Depende del proyecto AngularJS en el que estés trabajando, te puedes encontrar con que:
 
 - Los ficheros JS se importan directamente con un script en el HTML.
 - Se use Bower o incluso Nuget para descargas las dependencias.

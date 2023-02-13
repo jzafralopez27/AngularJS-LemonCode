@@ -139,7 +139,7 @@ En este caso vamos a usar la librería [angular-toastr](https://github.com/Foxan
 
 También esta configurada con su punto de entrada en el fichero _webpack.config.js_
 
-> Si te hace falta añadir una librería nueva en tu proyecto legacy, primero consultalo con el responsable del proyecto y también que te indique como las introducen en la solución.
+> Si te hace falta añadir una librería nueva en tu proyecto Angularjs, primero consúltalo con el responsable del proyecto y también que te indique como las introducen en la solución.
 
 Vamos a ver como darle uso en una aplicación angular, para ello primero nos vamos al módulo e indicamos que la vamos a usar:
 
