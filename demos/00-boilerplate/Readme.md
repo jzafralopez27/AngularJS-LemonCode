@@ -1,6 +1,6 @@
 # 00 Proyecto de arranque
 
-Vamos a analizar el proyecto con el que arrancamos y como se organiza.
+Vamos a analizar el proyecto con el que arrancamos y cómo se organiza.
 
 # Como arrancarlo
 
@@ -39,7 +39,7 @@ Hello From Angular app!
 
 ## Primer nivel
 
-En el primero nivel tenemos los siguientes fichero y carpetas principales:
+En el primero nivel tenemos los siguientes ficheros y carpetas principales:
 
 ```
 ├───node_modules
@@ -60,7 +60,7 @@ Veamos que es cada una de ellas:
 
 - **package.json**: este fichero es el que contiene la información del proyecto, como el nombre, la versión, las dependencias, etc, aquí encontrarás definición de comandos como _npm start_
 
-- **tsconfig.json**: este fichero es el que contiene la configuración de TypeScript, aquí se definen cosas como el nivel de estrictitud, si se compila a ES5 o ES6, etc.
+- **tsconfig.json**: este fichero es el que contiene la configuración de TypeScript, aquí se definen cosas como el nivel estrictito, si se compila a ES5 o ES6, etc.
 
 - **webpack.config.js**: este fichero es el que contiene la configuración de Webpack, aquí se definen cosas como el puerto en el que se levanta el servidor, si se compila a ES5 o ES6, etc., es decir tu configuración de bundling.
 
@@ -76,7 +76,7 @@ En la carpeta src tenemos la siguiente estructura:
 
 - **app**: aquí es donde vamos a empezar a desarrollar con _angular_ y _typescript_.
 
-- **mystyles.css**: en este fichero incluimos estilos globales (aquí depende mucho de como esté montado tu proyecto estará de una forma u otra).
+- **mystyles.css**: en este fichero incluimos estilos globales (aquí depende mucho de cómo esté montado tu proyecto estará de una forma u otra).
 
 - **index.html**: este es el fichero que se va a servir cuando arranquemos el proyecto, si trabajamos con aproximación SPA, será el único HTML completo que se cargue en el navegador (el resto serán fragmentos), vamos a analizar esto un poco más en profundidad.
 
@@ -102,7 +102,7 @@ Esos atributos _raros_ se llaman _directivas_ y dotan de superpoderes a un eleme
 
 - **ng-app**: es la directiva que le dice a Angular que este elemento es el elemento raíz de la aplicación.
 
-- **ng-strict-di**: es la directiva que le dice a Angular que use la inyección de dependencias en modo estricto (esto es un tema que vamos a ver más adelante, pero para hacerte una idea, te permite detectar problema en tu bundle en producción si has puesto mal una entrada).
+- **ng-strict-di**: es la directiva que le dice a Angular que use la inyección de dependencias en modo estricto (esto es un tema que vamos a ver más adelante, pero para hacerte una idea, te permite detectar problemas en tu bundle en producción si has puesto mal una entrada).
 
 - **ng-cloak**: es la directiva que le dice a Angular que no muestre el contenido del elemento hasta que no esté listo.
 
@@ -120,9 +120,9 @@ Aquí tenemos los siguientes ficheros:
 ├───app.html
 ```
 
-- **app.ts**: Punto de entrada de la aplicación, aquí le indicamos que vamos a crear un módulo que se va a llamar _app_ sus dependencias (por ejemplo podemos importar modulo de enrutación o una librería de componentes, que previamente hemos instalado con _npm install_), y cual va a ser el componente de arranque de la aplicación (en este caso lo hemos llamado _app_, en la siguiente linea verás este componente definido).
+- **app.ts**: Punto de entrada de la aplicación, aquí le indicamos que vamos a crear un módulo que se va a llamar _app_ sus dependencias (por ejemplo podemos importar el módulo de enrutación o una librería de componentes, que previamente hemos instalado con _npm install_), y el cual va a ser el componente de arranque de la aplicación (en este caso lo hemos llamado _app_, en la siguiente línea verás este componente definido).
 
-- **app.html**: Aquí definimos el _HTML (UI) del componente \_app_ en este caso ponemos el texto de _hola mundo_ (ya lo ampliaremos).
+- **app.html**: Aquí definimos el _HTML (UI) del componente app_ en este caso ponemos el texto de _hola mundo_ (ya lo ampliaremos).
 
 - **app.component.ts**: aquí definimos la lógica en TypeScript del componente _app_, de momento hacemos algo muy simple:
   - Definimos un objeto.
