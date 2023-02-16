@@ -1,6 +1,6 @@
 # 05 Form
 
-Bueno ya sabemos como ejecutar el servicio de login, vamos a ver ahora como rellenar un formulario y pasarle los datos al controlador del componente para que los procese.
+Bueno ya sabemos cómo ejecutar el servicio de login, vamos a ver ahora como rellenar un formulario y pasarle los datos al controlador del componente para que los procese.
 
 # Paso a paso
 
@@ -77,7 +77,7 @@ _./src/app/pages/login/login.component.ts_
 -  }
 ```
 
-- Vamos a ver que tal funciona esto (acuérdate que el usuario es: user@email.com y la clave es: test)
+- Vamos a ver qué tal funciona esto (acuérdate que el usuario es: user@email.com y la clave es: test)
 
 ```bash
 npm start
@@ -141,11 +141,11 @@ Vamos a aprender consumir una librería de terceros.
 
 En este caso vamos a usar la librería [angular-toastr](https://github.com/Foxandxss/angular-toastr) en este caso ya tenemos instaladas las dependecias y el tipado en el proyecto (puedes verlo en el fichero _package.json_).
 
-También esta configurada con su punto de entrada en el fichero _webpack.config.js_
+También está configurada con su punto de entrada en el fichero _webpack.config.js_
 
 > Si te hace falta añadir una librería nueva en tu proyecto Angularjs, primero consúltalo con el responsable del proyecto y también que te indique como las introducen en la solución.
 
-Vamos a ver como darle uso en una aplicación angular, para ello primero nos vamos al módulo e indicamos que la vamos a usar:
+Vamos a ver cómo darle uso en una aplicación angular, para ello primero nos vamos al módulo e indicamos que la vamos a usar:
 
 _./src/app/app.ts_
 
