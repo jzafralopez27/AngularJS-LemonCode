@@ -94,21 +94,25 @@ import { LoginService } from "./login.service";
 + import { StateService } from '@uirouter/angularjs';
 
 class LoginPageController {
+  user: string;
+  password: string;
   private loginService: LoginService;
 +  $state: StateService;
 
-  constructor(
-+   $state: StateService
-    loginService: LoginService) {
+-  constructor(loginService: LoginService) {
++  constructor(
++    loginService: LoginService,
++    $state: StateService,
++  ) {
     "ngInject";
-+    this.$state = $state;
     this.loginService = loginService;
++   this.$state = $state;
   }
 
 //(..)
 
-- LoginPageController.$inject = ["LoginService"];
-+ LoginPageController.$inject = ['$state', "LoginService"];
+- LoginPageController.$inject = ["loginService"];
++ LoginPageController.$inject = ["loginService", "$state"];
 
 ```
 
@@ -170,24 +174,27 @@ import { StateService } from "@uirouter/angularjs";
 + import {IToastrService} from 'angular-toastr';
 
 class LoginPageController {
+  user: string;
+  password: string;
   private loginService: LoginService;
   $state: StateService;
 + toastr : IToastrService;
 
   constructor(
-      $state: StateService,
-+     toastr : IToastrService,
-      loginService: LoginService) {
+    loginService: LoginService
+    $state: StateService,      
++   toastr : IToastrService,
+  ) {
     "ngInject";
-    this.$state = $state;
-+    this.toastr = toastr;
     this.loginService = loginService;
+    this.$state = $state;
++   this.toastr = toastr;    
   }
 
   //(...)
 
-- LoginPageController.$inject = ["$state", "LoginService"];
-+ LoginPageController.$inject = ["$state", "toastr","LoginService"];
+- LoginPageController.$inject = ["loginService", "$state"];
++ LoginPageController.$inject = ["loginService", "$state", "toastr"];
 ```
 
 Y ahora vamos a usar el servicio _toastr_ en el método _validateLogin_:
