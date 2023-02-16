@@ -147,7 +147,7 @@ angular
   .component("clientlistsearch", ClientListSearchComponent)
   .component("clientlistresult", ClientListResultComponent)
   .component("clientlistcard", ClientListCardComponent);
-+ .service('LoginService', LoginService);
++ .service('loginService', LoginService);
 ```
 
 Vámonos ahora al componente de login, y vamos a pedir el servicio que hemos creado a invocarlo, que hacemos aquí
@@ -168,7 +168,7 @@ _./src/app/pages/login/login.component.ts_
 +
 +  constructor(LoginService: LoginService) {
 +    "ngInject";
-+    this.loginService = LoginService;
++    this.loginService = loginService;
 +  }
 + }
 
@@ -178,7 +178,7 @@ export const LoginComponent = {
 + controller: LoginPageController,
 };
 
-+ LoginPageController.$inject = ['LoginService'];
++ LoginPageController.$inject = ['loginService'];
 ```
 
 - Vamos ahora hacer una pequeña prueba para asegurarnos que funciona (después moveremos este código del _$onInit_ al handler del botón de _login_), ¿Qué hacemos aquí?
