@@ -12,7 +12,7 @@ npm install
 
 - En el controlador de nuestro loginform vamos a añadir dos variables miembros para almacenar el usuario y la contraseña:
 
-_./src/app/login/login.component.ts_
+_./src/app/pages/login/login.component.ts_
 
 ```diff
 class LoginPageController {
@@ -23,7 +23,7 @@ class LoginPageController {
 
 - Vamos ahora a enlazar estos datos, así como la llamada al método que creamos previamente _validateLogin_ al HTML:
 
-_./src/app/login/login.component.html_
+_./src/app/pages/login/login.component.html_
 
 ```diff
 <input
@@ -36,7 +36,7 @@ _./src/app/login/login.component.html_
 />
 ```
 
-_./src/app/login/login.component.html_
+_./src/app/pages/login/login.component.html_
 
 ```diff
 <input
@@ -51,11 +51,11 @@ _./src/app/login/login.component.html_
 
 ¿Qué estamos haciendo aquí? Esto funciona de una manera muy parecida al _ngModel_ de Angular 2, estamos haciendo un binding two way, si el input cambia la variable miembro _vm.user_ se actualizar, y si _vm.user_ se actualiza en el controlador, el input se actualiza.
 
-Fíjate que usamos el prefijo "vm" por que lo hemos definido en el controlador como _vm_, si no indicamos nada se usa _$ctrl_.
+Fíjate que usamos el prefijo "vm" porque lo hemos definido en el controlador como _vm_, sino indicamos nada se usa _$ctrl_.
 
 Vamos ahora a enlazar el botón de login con el método que creamos en el controlador:
 
-_./src/app/login/login.component.html_
+_./src/app/pages/login/login.component.html_
 
 ```diff
 <button
@@ -69,7 +69,7 @@ _./src/app/login/login.component.html_
 
 Antes de probar el ejemplo, vamos a quitar la entrada de _ngInit_ para que no salte el _alert_ nada más mostrarse el componente.
 
-_./src/app/login/login.component.ts_
+_./src/app/pages/login/login.component.ts_
 
 ```diff
 -  public $onInit() {
@@ -87,7 +87,7 @@ npm start
 
 En este caso estamos usando _ui-router_ (si estás usando _angular-router_ tendrías que usar otro método pero es una aproximación parecida), para navegador por código JS nos traemos el _StateService_ y lo inyectamos en el constructor:
 
-_./src/app/login/login.component.ts_
+_./src/app/pages/login/login.component.ts_
 
 ```diff
 import { LoginService } from "./login.service";
@@ -114,7 +114,7 @@ class LoginPageController {
 
 Y navegamos a la página cliente desde el método _validateLogin_:
 
-_./src/app/login/login.component.ts_
+_./src/app/pages/login/login.component.ts_
 
 ```diff
   validateLogin = (login: string, password: string) => {
@@ -129,7 +129,7 @@ _./src/app/login/login.component.ts_
   };
 ```
 
-> ¿De donde sale ese _clientlist_? Échale un ojo al fichero _app.routing.ts_
+> ¿De dónde sale ese _clientlist_? Échale un ojo al fichero _app.routing.ts_
 
 - Para terminar, ¿No sería mejor en vez de mostrar un alert cuando el login falla, mostrar algo más amigable para el usuario? Por ejemplo un mensaje de tipo "tostada".
 
@@ -162,7 +162,7 @@ angular
 
 - Ahora nos vamos al _login.component.ts_ y vamos a usar la librería para mostrar un mensaje de error cuando el login falle.
 
-_./src/app/login/login.component.ts_
+_./src/app/pages/login/login.component.ts_
 
 ```diff
 import { LoginService } from "./login.service";
