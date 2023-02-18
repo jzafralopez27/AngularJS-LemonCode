@@ -19,6 +19,8 @@ npm install
 
 - Vámonos al formulario de login y en cada etiqueta añadimos el validador campo `required`:
 
+_./src/app/pages/login/login.component.html_
+
 ```diff
             <div class="form-group">
               <label for="exampleInputEmail1">Username or Email</label>
@@ -67,7 +69,7 @@ Ahora al formulario vamos a darle un nombre para poder ver el estado del mismo d
     >
 ```
 
-> Fijate que los validadores están implementados como directivas (ng-required) y que para deshabilitar el componente usamos otra directiva, ng-disabled.
+> Fíjate que los validadores están implementados como directivas (ng-required) y que para deshabilitar el componente usamos otra directiva, ng-disabled.
 
 > _loginForm_ es el nombre que le pusimos al formulario.
 
@@ -79,7 +81,7 @@ npm start
 
 Vamos ahora a mostrar los mensajes de error debajo de cada campo, para ello vamos a ayudarnos de la librería _angular-message_, como tema a tener en cuenta esta librería nos permite reusar una plantilla de errores, ahorrando así código.
 
-Este librería ya la tenemos instalada en el proyecto (ver _package.json), y también está incorporada al bundle (ver \_webpack.config.js_).
+Esta librería ya la tenemos instalada en el proyecto (ver _package.json), y también está incorporada al bundle (ver \_webpack.config.js_).
 
 - Vamos a importarla en nuestra aplicación _angularjs_
 
@@ -117,7 +119,7 @@ _./src/app/pages/login/login.component.html_
     </div>
 ```
 
-> Fíjate que tenemos un mensaje para saber si el email es valido y funciona ¿Por qué si no hemos añadido ninguna directiva de validación para el email? Porque Angularjs se integra con los validadores de HTML5, en este caso el input type de esa caja de texto es _email_.
+> Fíjate que tenemos un mensaje para saber si el email es válido y funciona ¿Por qué si no hemos añadido ninguna directiva de validación para el email? Porque Angularjs se integra con los validadores de HTML5, en este caso el input type de esa caja de texto es _email_.
 
 Vamos a probar y ver el mensaje que aparece.
 
@@ -188,7 +190,7 @@ _./src/app/pages/login/login.component.html_
 +  </div>
 ```
 
-¿Y que pasa si tengo que cambiar uno de los mensajes de error de la plantilla justo sólo para un campo? ¿Tengo que manualmente poner todos los validadores? La respuesta es no, puedes elegir la plantilla y sobrescribir el texto del validador que quiera, vamos a cambiar el mensaje de required para el campo de la contraseña a otro texto:
+¿Y qué pasa si tengo que cambiar uno de los mensajes de error de la plantilla justo sólo para un campo? ¿Tengo que manualmente poner todos los validadores? La respuesta es no, puedes elegir la plantilla y sobrescribir el texto del validador que quiera, vamos a cambiar el mensaje de required para el campo de la contraseña a otro texto:
 
 ```diff
               <input
