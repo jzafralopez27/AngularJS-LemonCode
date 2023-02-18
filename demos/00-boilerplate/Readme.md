@@ -15,7 +15,7 @@ npm install
 Depende del proyecto AngularJS en el que estés trabajando, te puedes encontrar con que:
 
 - Los ficheros JS se importan directamente con un script en el HTML.
-- Se use Bower o incluso Nuget para descargas las dependencias.
+- O se use Bower o incluso Nuget para descargas las dependencias.
 
 Aquí mi consejo es que le preguntes al responsable del proyecto cuando arranques.
 
