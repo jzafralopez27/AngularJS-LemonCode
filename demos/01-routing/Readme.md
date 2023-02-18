@@ -246,9 +246,7 @@ _./src/app/app.routing.ts_
   ;
 ```
 
-- Si ahora probamos en el navegador, podemos introducir en el navegador la siguiente ruta _http://localhost:8080/#/clientlist_ y veremos que se nos muestra la página de clientes.
-
-- Es hora de poder navegar también en la aplicación, vamos a añadir 8n enlace para navegar a la página de clientes desde la página de login.
+- Es hora de poder navegar en la aplicación, vamos a añadir un enlace para navegar a la página de clientes desde la página de login.
 
 _./src/pages/login/login.component.html_
 
