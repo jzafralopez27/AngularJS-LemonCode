@@ -2,16 +2,16 @@
 
 Antes de ponernos a crear servicios o ponernos con bindings etc, lo suyo es construir un layout que tenga buena pinta.
 
-En los tiempos es que se usaba Angular teníamos una seríe de problemas para poder hacer un layout que se ajustara a la pantalla, y que tuviera un buen aspecto:
+En los tiempos es que se usaba Angular teníamos una serie de problemas para poder hacer un layout que se ajustara a la pantalla, y que tuviera un buen aspecto:
 
 - Los estándares como flexbox o css grid no estaban del todo definidos.
-- Cada navegador hacía la guerra por su sitio (al cabezota de Microsoft le coste dió su brazo a torcer a con Internet Explorer).
+- Cada navegador hacía la guerra por su sitio (al cabezota de Microsoft le costó dar su brazo a torcer con Internet Explorer).
 - Estaban irrumpiendo las tablets, los smart phones y hacer aplicaciones responsivas se hacía muy complicado (en muchos casos se llegaban a mantener portales separados para móvil o escritorio).
 
 En ese tiempo se publicaron librerías como _Twitter bootstrap_ que ayudaban a construir layouts responsivos, si estás en un proyecto Angularjs es muy probable que estás usando _bootstrap_, a tener en cuenta:
 
-- Si tu proyecto es muy antiguo, seguramente estés usando la versión 2 de Bootstrap (ojo, buscate la documentación de esta versión ya que hay bastantes cambios con la versión 3).
-- Si tu proyecto se creo en 2015 o 2016 puede que estás trabajando con la versión 3 de Bootstrap.
+- Si tu proyecto es muy antiguo, seguramente estés usando la versión 2 de Bootstrap (ojo, búscate la documentación de esta versión ya que hay bastantes cambios con la versión 3).
+- Si tu proyecto se creó en 2015 o 2016 puede que estés trabajando con la versión 3 de Bootstrap.
 - Si es más moderno o actualizado puede que esté con la 4 o incluso la 5.
 
 Ojo cada versión introduce breaking changes, y existen librerías de componentes de Angular que están atadas a ciertas versiones de Bootstrap, antes de intentar migrar o actualizar pregunta al responsable de tu proyecto.
@@ -32,7 +32,7 @@ https://bootstrapdocs.com/v3.3.0/docs/css/
 
 Vamos a plantar un layout completo de login, ver el aspecto que tiene y explicar un poco como funciona:
 
-_./src/_
+_./src/pages/login/login.component.html_
 
 ```diff
 <div>
@@ -80,7 +80,7 @@ _./src/_
 </div>
 ```
 
--Vamos a arrancar el proyecto y ver que pinta tiene el login:
+-Vamos a arrancar el proyecto y ver qué pinta tiene el login:
 
 - _container_: es un elemento que nos permite centrar el contenido de la página, y que se ajuste a la pantalla.
 - _col-md-4 col-md-offset-4_: es un elemento que nos permite crear columnas, y que se ajuste a la pantalla, en este caso el estamos diciendo que para tamaño de pantalla _md_ (medium) queremos que ocupe 4 columnas, y que se desplace 4 columnas a la derecha (bootstrap tiene su sistema de diseño en columnas, así como diferente tamaños, xs, sm, md, lg, xl).
@@ -91,6 +91,6 @@ _./src/_
 - _form-group_: es un elemento que nos permite crear un grupo de elementos de un formulario.
 - _btn_: bootstrap nos permite estilar botones.
 
-Si necesitas inspiración para crear un formulario o listado estilado y estás en un proyecto legacy, mi consejo es que busques ejemplos parecidos en la aplicación para poder tomarlo como punto de partida, si tienes que hacer algo nuevo puedes también inspirarte en los ejempls de _bootsnipp_ soporta varias versiones, en concreto para esta versión 3.3: https://bootsnipp.com/tags/3.3.0
+Si necesitas inspiración para crear un formulario o listado estilado y estás en un proyecto legacy, mi consejo es que busques ejemplos parecidos en la aplicación para poder tomarlo como punto de partida, si tienes que hacer algo nuevo puedes también inspirarte en los ejemplos de _bootsnipp_ soporta varias versiones, en concreto para esta versión 3.3: https://bootsnipp.com/tags/3.3.0
 
 Otro tema a la hora de crear layout es que preguntes en tu equipo que aproximación se usa, puede que igual para nuevas ventanas prefieres que los montes usando tecnología moderna, o puede que por consistencia prefieran que uses lo que se usa en el resto de la aplicación.
