@@ -13,7 +13,7 @@ _npm install_
 - En este caso vamos a crear una jerarquía de componentes, es decir:
   - Tendremos el componente lista.
   - El componente _card_ para mostrar la información de cada cliente.
-  - Un componente _search_ para tener una cabecera de busqueda.
+  - Un componente _search_ para tener una cabecera de búsqueda.
 
 Esto quedaría de la siguiente manera:
 
@@ -61,7 +61,7 @@ export const ClientListSearchComponent = {
 };
 ```
 
-Vamos a registrar este componente a nivel de aplicación (en un proyecto más grander podriamos tener un módulo por cada página).
+Vamos a registrar este componente a nivel de aplicación (en un proyecto más grande podríamos tener un módulo por cada página).
 
 _./src/app/app.ts_
 
@@ -99,7 +99,7 @@ _./src/app/pages/client-list/client-list.component.html_
 npm start
 ```
 
-- Bien ya tenemos la cabecera de busqueda, vamos ahora a crear la págin a de resultados, para ello vamos a hardcodear valores (todavía no nos metemos a consumir servicios):
+- Bien ya tenemos la cabecera de búsqueda, vamos ahora a crear la página de resultados, para ello vamos a _hardcodear_ valores (todavía no nos metemos a consumir servicios):
 
 > En este caso en vez de usar bootstrap, vamos a usar un contenedor flexbox, de esta manera puedes ver que si el desarrollo va a correr en navegadores modernos (IE NO, Chrome, Firefox, Safari, ...), y los responsables del proyecto están de acuerdo puedes usarlo (en este caso por simplicidad metemos los estilos como _style_ lo normal sería añadirlos como CSS)
 
@@ -198,6 +198,8 @@ _./src/app/pages/client-list/card/client-list-card.component.html_
 
 Vamos a definir la parte de TypeScript, en este caso, empezamos a meterle chicha:
 
+_./src/app/pages/client-list/card/client-list-card.component.ts_
+
 ```ts
 export const ClientListCardComponent = {
   bindings: {
@@ -212,7 +214,7 @@ export const ClientListCardComponent = {
 Aquí tenemos novedades:
 
 - Primero la sección de bindings: aquí definimos los parámetros que vamos a recibir desde el componente padre, en este caso vamos a recibir el nombre del cliente y la descripción del mismo.
-- Después fijate que tenemos un parámetro que se llama _controllerAs_ esto es para definir el alias que vamos a usar para referirnos a la instancia del controlador, en este caso vamos a usar _vm_ (por convención), es decir nuestro HTML puede consumir miembros públicos de nuestros componente añadiendo el prefijo _vm_ (esto no se puede hacer con versiones antiguas de AngularJS, por ejemplo la 1.2, hay tendrías que usar $scope y no podrías usar componentes).
+- Después fíjate que tenemos un parámetro que se llama _controllerAs_, esto es para definir el alias que vamos a usar para referirnos a la instancia del controlador, en este caso vamos a usar _vm_ (por convención), es decir nuestro HTML puede consumir miembros públicos de nuestros componente añadiendo el prefijo _vm_ (esto no se puede hacer con versiones antiguas de AngularJS, por ejemplo la 1.2, hay tendrías que usar $scope y no podrías usar componentes).
 
 Más info sobre bindings en angularjs:
 
@@ -278,4 +280,4 @@ _./src/app/pages/client-list/result/client-list-result.component.html_
 </div>
 ```
 
-> En siguientes ejemplos veremos como usar un _ng-repeat_ para iterar sobre un array de clientes.
+> En siguientes ejemplos veremos cómo usar un _ng-repeat_ para iterar sobre un array de clientes.
