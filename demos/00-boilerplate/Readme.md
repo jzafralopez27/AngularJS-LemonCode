@@ -122,7 +122,7 @@ Aquí tenemos los siguientes ficheros:
 ├───app.ts
 ```
 
-- **app.component.ts**: Punto de entrada de la aplicación, aquí le indicamos que vamos a crear un módulo que se va a llamar _app_ sus dependencias (por ejemplo podemos importar el módulo de enrutación o una librería de componentes, que previamente hemos instalado con _npm install_), y el cual va a ser el componente de arranque de la aplicación (en este caso lo hemos llamado _app_, en la siguiente línea verás este componente definido).
+- **app.ts**: Punto de entrada de la aplicación, aquí le indicamos que vamos a crear un módulo que se va a llamar _app_ sus dependencias (por ejemplo podemos importar el módulo de enrutación o una librería de componentes, que previamente hemos instalado con _npm install_), y el cual va a ser el componente de arranque de la aplicación (en este caso lo hemos llamado _app_, en la siguiente línea verás este componente definido).
 
 - **app.html**: Aquí definimos el _HTML (UI) del componente app_ en este caso ponemos el texto de _hola mundo_ (ya lo ampliaremos).
 
