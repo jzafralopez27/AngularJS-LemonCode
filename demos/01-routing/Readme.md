@@ -14,7 +14,7 @@ Para ello nos hace falta:
 
 Antes de empezar a configurar el routing, vamos a crear un componente de _login_ que vamos a usar en la página de inicio.
 
-Vamos a crear una subcarpeta que llamaremos _pages_ y dentro crearemos otra subcarpeta que llamaremos _login_ y dentro de esta crearemos un fichero _login.component.ts_ y otro _login.component.html_.
+Creamos una subcarpeta que llamaremos _pages_ y dentro añadiremos otra subcarpeta que llamaremos _login_ que contendrá un fichero _login.component.ts_ y otro _login.component.html_.
 
 _./src/app/pages/login/login.component.html_
 
@@ -46,12 +46,12 @@ angular.module("app", ["ui.router"])
 + .component("login", LoginComponent);
 ```
 
-En _Angularjs_ os podéis encontrar dos opciones principales de routing:
+En _Angularjs_ os podéis encontrar dos opciones principales de librerías de routing:
 
 - _angular-router_: este es el router oficial de _Angularjs_, es un módulo externo, y tiene algunas limitaciones.
-- _ui-router_: este fue un router alternativo, que tiene más funcionalidades, y en los últimos años de esta tecnología se hizo bastante popular.
+- _ui-router_: este es un router alternativo al oficial, que tiene más funcionalidades, y en los últimos años de esta tecnología se hizo bastante popular.
 
-Lo normal es que si no tenéis casos avanzados en vuestra aplicación, ambos funcionen de una manera similar y os cubra un mínimo.
+Lo normal es que si no tenéis casos avanzados en vuestra aplicación, ambos funcionen de una manera similar y os cubra el mínimo que necesitáis.
 
 En este ejemplo vamos a usar _uirouter_.
 
@@ -61,9 +61,9 @@ Lo primero que hacemos es instalarnos el módulo, si vuestro proyecto utiliza _n
 npm install @uirouter/angularjs --save
 ```
 
-- Ahora toca incluir la librería en nuestro bundle, en caso de que estés usando _webpack_, lo podemos añadir en nuestro punto de entrada (otra opción más arcaica es añadir el script en el _index.html_, en un proyecto real pregunta a tu mentor si tienes dudas):
+- Ahora toca incluir la librería en nuestro bundle, en caso de que estés usando _webpack_, lo podemos añadir en nuestro punto de entrada (otra opción más arcaica es añadir el script en el _index.html_. En un proyecto real pregunta a tu mentor si tienes dudas):
 
-> En el fichero del proyecto verás que ya están incluidos por comodidad
+> En el fichero de configuración del buil del proyecto (webpack.config.js) lo añadimos a lista de librerías.
 
 _webpack.config.js_
 
@@ -78,7 +78,9 @@ _webpack.config.js_
 
 - Nos hemos descargado la librería y la hemos incluido en nuestro bundle, pero nos queda un paso más para poder usarla, y es indicarle a _Angularjs_ que la incluya en el proyecto:
 
-En nuestra aplicación _angular_ suele haber un punto de entrada que se suele llamar _app_ o _main_ en el que definimos un módulo, el nombre del mismo (normalmente _app_, aunque puede tener el nombre de otra aplicación) y las dependencias que tiene (es decir que librerías va a usar), así como que componentes de aplicación tiene registrado (veremos esto en más detalle más adelante).
+En nuestra aplicación _angular_ suele haber un punto de entrada que se suele llamar _app_ o _main_ en el que definimos un módulo, e indicamos el nombre del mismo (normalmente _app_, aunque puede tener el nombre de otra aplicación) y las dependencias que tiene (es decir que librerías va a usar), así como que componentes de aplicación tiene registrado (veremos esto en más detalle más adelante).
+
+Añadimos _ui.router_
 
 _./src/app/app.ts_
 
@@ -95,7 +97,7 @@ angular.module('app', [
 ;
 ```
 
-> Mucho cuidado con no equivocarte al teclear el nombre de la librería aquí, fíjate que es un string, y que si te equivocas _typescript_ no te va a avisar.
+> Mucho cuidado con no equivocarte al teclear el nombre de la librería, fíjate que es un string, y que si te equivocas _typescript_ no te va a avisar.
 
 > Hay aplicaciones que definen varios módulos para que ésta sea más mantenible, en caso de duda pedid ayuda a vuestro mentor.
 
