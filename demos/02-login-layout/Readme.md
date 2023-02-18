@@ -1,24 +1,24 @@
 # 01 Login Layout
 
-Antes de ponernos a crear servicios o ponernos con bindings etc, lo suyo es construir un layout que tenga buena pinta.
+Antes de ponernos a crear servicios o jugar con bindings etc, lo suyo es construir un layout que tenga buena pinta.
 
-En los tiempos es que se usaba Angular teníamos una serie de problemas para poder hacer un layout que se ajustara a la pantalla, y que tuviera un buen aspecto:
+En los tiempos en que se usaba Angularjs teníamos una serie de problemas para poder hacer un layout que se ajustara a la pantalla, y que tuviera un buen aspecto:
 
 - Los estándares como flexbox o css grid no estaban del todo definidos.
 - Cada navegador hacía la guerra por su sitio (al cabezota de Microsoft le costó dar su brazo a torcer con Internet Explorer).
 - Estaban irrumpiendo las tablets, los smart phones y hacer aplicaciones responsivas se hacía muy complicado (en muchos casos se llegaban a mantener portales separados para móvil o escritorio).
 
-En ese tiempo se publicaron librerías como _Twitter bootstrap_ que ayudaban a construir layouts responsivos, si estás en un proyecto Angularjs es muy probable que estás usando _bootstrap_, a tener en cuenta:
+En ese tiempo se publicaron librerías como _Twitter Bootstrap_ que ayudaban a construir layouts responsivos, si estás en un proyecto Angularjs es muy probable que estás usando _bootstrap_, a tener en cuenta:
 
-- Si tu proyecto es muy antiguo, seguramente estés usando la versión 2 de Bootstrap (ojo, búscate la documentación de esta versión ya que hay bastantes cambios con la versión 3).
+- Si tu proyecto es muy antiguo, seguramente estés usando la versión 2 (ojo, búscate la documentación de esta versión ya que hay bastantes cambios con la versión 3).
 - Si tu proyecto se creó en 2015 o 2016 puede que estés trabajando con la versión 3 de Bootstrap.
-- Si es más moderno o actualizado puede que esté con la 4 o incluso la 5.
+- Si es más moderno o actualizado puede que estés con la 4 o incluso la 5.
 
 Ojo cada versión introduce breaking changes, y existen librerías de componentes de Angular que están atadas a ciertas versiones de Bootstrap, antes de intentar migrar o actualizar pregunta al responsable de tu proyecto.
 
 # Paso a paso
 
-En este proyecto ya tenemos _bootstrap_ versión _3.3.7_ instalado, como curiosidad, si quieres instalar un paquete instalado con una versión concreta, se lo puedes indicar en el _npm install_:
+En este proyecto ya tenemos _bootstrap_ versión _3.3.7_ instalado, como curiosidad, si quieres instalar un paquete con una versión concreta, se lo puedes indicar en el _npm install_:
 
 ```bash
 npm install bootstrap@3.3.7 --save
