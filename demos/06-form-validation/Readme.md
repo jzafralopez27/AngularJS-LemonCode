@@ -79,9 +79,9 @@ Si ahora probamos podemos ver que hasta que no informados los dos campos, el bot
 npm start
 ```
 
-Vamos ahora a mostrar los mensajes de error debajo de cada campo, para ello vamos a ayudarnos de la librería _angular-message_, como tema a tener en cuenta esta librería nos permite reusar una plantilla de errores, ahorrando así código.
+Vamos ahora a mostrar los mensajes de error debajo de cada campo, para ello vamos a ayudarnos de la librería _angular-message_, un característica muy interesante de esta librería es que nos permite reusar una plantilla de errores, ahorrando así código.
 
-Esta librería ya la tenemos instalada en el proyecto (ver _package.json), y también está incorporada al bundle (ver \_webpack.config.js_).
+Esta librería ya la tenemos instalada en el proyecto (ver _package.json_), y también está incorporada al bundle (ver \_webpack.config.js_).
 
 - Vamos a importarla en nuestra aplicación _angularjs_
 
