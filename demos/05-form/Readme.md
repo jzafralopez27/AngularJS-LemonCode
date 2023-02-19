@@ -49,7 +49,7 @@ _./src/app/pages/login/login.component.html_
 />
 ```
 
-¿Qué estamos haciendo aquí? Esto funciona de una manera muy parecida al _ngModel_ de Angular 2, estamos haciendo un binding two way, si el input cambia la variable miembro _vm.user_ se actualizar, y si _vm.user_ se actualiza en el controlador, el input se actualiza.
+¿Qué estamos haciendo aquí? Esto funciona de una manera muy parecida al _ngModel_ de Angular 2, estamos haciendo un binding two way, si el input cambia la variable miembro _vm.user_ se actualiza, y si _vm.user_ se actualiza en el controlador, el input se actualiza.
 
 Fíjate que usamos el prefijo "vm" porque lo hemos definido en el controlador como _vm_, sino indicamos nada se usa _$ctrl_.
 
