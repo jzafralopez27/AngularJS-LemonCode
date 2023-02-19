@@ -35,7 +35,7 @@ Esto quedaría de la siguiente manera:
             client.list.search.component.html
 ```
 
-> Dependiendo de la versión de Angular con la que estés trabajando puede que crear componentes sea posible o puede que no y tengas que declararlo todo en el mismo o crear directivas como componentes (si estás en la versión 1.2 es muy probable), aquí siempre consulta con tu responsable de proyecto y estudia la base de código ya existente para ser consistente con la solución.
+> Dependiendo de la versión de Angular con la que estés trabajando puede que crear componentes sea posible o puede que no y tengas que declararlo todo en el mismo o crear directivas como componentes (si estás en la versión 1.2 es muy probable), aquí siempre consulta con tu responsable de proyecto y estudia la base de código ya existente para conocer cual es la solucíon consensuada.
 
 Vamos a construir el componente _search_:
 
