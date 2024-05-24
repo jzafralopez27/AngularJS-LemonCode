@@ -1,0 +1,29 @@
+<div>
+    <h1>Edición de película</h1>
+    <form name="movieForm" ng-submit="saveMovie()" novalidate>
+      <div>
+        <label for="title">Título:</label>
+        <input type="text" id="title" ng-model="movie.title" required minlength="3"> <!-- aqui creo, con el atributo required minglength, la norma de que debe ser de 3 caracteres de longitud -->
+        <span ng-show="movieForm.title.$error.required">Título es obligatorio.</span>
+        <span ng-show="movieForm.title.$error.minlength">Mínimo 3 caracteres.</span> <!-- y asi lo aplico -->
+      </div>
+      <div>
+        <label for="year">Año:</label>
+        <input type="number" id="year" ng-model="movie.year" required>
+        <span ng-show="movieForm.year.$error.required">Año es obligatorio.</span>
+      </div>
+      <div>
+        <label for="director">Director:</label>
+        <input type="text" id="director" ng-model="movie.director" required minlength="3"> 
+        <span ng-show="movieForm.director.$error.required">Director es obligatorio.</span>
+        <span ng-show="movieForm.director.$error.minlength">Mínimo 3 caracteres.</span> 
+      </div>
+      <div>
+        <label for="imageUrl">URL Imagen:</label>
+        <input type="url" id="imageUrl" ng-model="movie.imageUrl" required>
+        <span ng-show="movieForm.imageUrl.$error.required">URL es obligatorio.</span>
+        <span ng-show="movieForm.imageUrl.$error.url">URL no es válida.</span>
+      </div>
+      <button type="submit" ng-disabled="movieForm.$invalid">Guardar</button>
+    </form>
+  </div>

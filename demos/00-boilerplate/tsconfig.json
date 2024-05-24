@@ -7,15 +7,15 @@
     "sourceMap": true,
     "types": [
       "jasmine",
-       "webpack-env",
-       "angular-mocks"       
-    ],          
+      "webpack-env",
+      "angular-mocks"
+    ],
     "jsx": "react",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false,
     "noLib": false,
     "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true
+    "ignoreDeprecations": "5.0"
   },
   "compileOnSave": false,
   "exclude": [
