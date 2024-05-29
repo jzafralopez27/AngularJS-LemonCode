@@ -4,7 +4,6 @@ app.controller('MoviesListController', ['$scope', '$http', function($scope, $htt
         $scope.movies = response.data;
       })
       .catch(function(error) {
-        console.error('Error fetching movies:', error);
+        console.error('Error mostrando la peli:', error);
       });
   }]);
-  

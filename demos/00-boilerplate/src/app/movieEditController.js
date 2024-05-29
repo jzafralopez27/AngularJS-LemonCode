@@ -6,7 +6,7 @@ app.controller('MovieEditController', ['$scope', '$http', '$routeParams', '$loca
         $scope.movie = response.data;
       })
       .catch(function(error) {
-        console.error('Error fetching movie:', error);
+        console.error('Error al mostrar la peli:', error);
       });
   
     $scope.saveMovie = function() {
@@ -16,7 +16,7 @@ app.controller('MovieEditController', ['$scope', '$http', '$routeParams', '$loca
             $location.path('/movies');
           })
           .catch(function(error) {
-            console.error('Error saving movie:', error);
+            console.error('Error al guardar la peli', error);
           });
       }
     };
